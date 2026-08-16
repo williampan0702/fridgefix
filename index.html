@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="FridgeFix recommends healthy meals based on ingredients you already have.">
+  <link rel="icon" type="image/png" href="assets/fridgefix-logo.png">
   <title>FridgeFix — Make a meal from what you have</title>
   <style>
     :root {
@@ -63,14 +64,10 @@
     }
 
     .brand-mark {
-      display: grid;
-      place-items: center;
-      width: 38px;
-      height: 38px;
-      border-radius: 13px;
-      color: white;
-      background: var(--green);
-      box-shadow: 0 8px 20px rgba(22, 116, 74, 0.25);
+      display: block;
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
     }
 
     .nav-link {
@@ -930,12 +927,11 @@
     .nav { padding: 18px 0; }
 
     .brand-mark {
-      border: 2px solid var(--ink);
-      border-radius: 50%;
-      background: var(--lime);
-      color: var(--ink);
-      box-shadow: 4px 4px 0 var(--ink);
-      transform: rotate(-8deg);
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      transform: none;
     }
 
     .nav-link {
@@ -1392,6 +1388,9 @@
     }
 
     .shopping-button:hover, .secondary-action:hover { background: var(--lime); }
+    .shopping-button.cart-receive {
+      animation: cartReceive .48s cubic-bezier(.2,.9,.25,1.25);
+    }
     .shopping-count {
       display: inline-grid;
       place-items: center;
@@ -1403,6 +1402,31 @@
       color: white;
       background: var(--ink);
       font-size: .62rem;
+    }
+
+    .shopping-fly-item {
+      position: fixed;
+      z-index: 120;
+      max-width: 150px;
+      padding: 6px 9px;
+      overflow: hidden;
+      border: 1.5px solid var(--ink);
+      border-radius: 999px;
+      color: var(--ink);
+      background: var(--lime);
+      box-shadow: 4px 5px 0 rgba(38,32,68,.22);
+      font-size: .61rem;
+      font-weight: 900;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+
+    @keyframes cartReceive {
+      0% { transform: scale(1); }
+      38% { transform: scale(1.13) rotate(-2deg); background: var(--lime); }
+      100% { transform: scale(1); }
     }
 
     .card-actions {
@@ -1521,6 +1545,12 @@
     .rater-head p { max-width: 610px; margin: 0; color: var(--muted); font-size: .74rem; }
     .rater-form { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
     .rater-form input { min-width: 0; }
+    .manual-portions { margin-top: 12px; padding: 13px; border: 1px solid #d0c5db; border-radius: 9px; background: #f7f3ff; }
+    .manual-portions[hidden] { display: none; }
+    .manual-portions h4 { margin: 0 0 8px; font-size: .72rem; }
+    .manual-portion-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; }
+    .manual-portion-item { display: flex; align-items: center; justify-content: space-between; gap: 9px; padding: 8px; border-radius: 7px; background: white; font-size: .65rem; font-weight: 850; }
+    .manual-portion-item select { min-width: 104px; height: 32px; padding: 4px 24px 4px 7px; border: 1px solid #bfb3dc; border-radius: 6px; color: var(--ink); background: white; font: inherit; font-weight: 800; }
     .photo-analyzer { display: grid; grid-template-columns: minmax(220px, .8fr) 1.2fr; gap: 18px; margin-bottom: 22px; padding: 18px; border: 1px solid #c8bce5; border-radius: 12px; background: #f4f0ff; }
     .photo-stage { position: relative; display: grid; overflow: hidden; min-height: 210px; place-items: center; border: 1.5px dashed #8b7fb4; border-radius: 10px; color: #514976; background: linear-gradient(145deg, #fff, #ece6ff); text-align: center; }
     .photo-stage img { width: 100%; height: 100%; max-height: 280px; object-fit: cover; }
@@ -1545,10 +1575,25 @@
     .prediction-item { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: center; padding: 8px; border-radius: 7px; background: #f6f2ff; font-size: .65rem; }
     .prediction-item input { width: 16px; height: 16px; accent-color: var(--orange); }
     .prediction-item .prediction-name { width: 100%; height: 34px; padding: 6px 8px; border: 1px solid #c8bce5; border-radius: 6px; color: var(--ink); background: white; font: inherit; font-weight: 800; }
+    .prediction-details { min-width: 0; }
+    .prediction-meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 5px 10px; margin-top: 4px; }
+    .portion-control { display: inline-flex; align-items: center; gap: 5px; color: var(--ink); font-size: .58rem; font-weight: 850; }
+    .portion-control select { height: 27px; padding: 3px 24px 3px 7px; border: 1px solid #bfb3dc; border-radius: 6px; color: var(--ink); background: white; font: inherit; font-weight: 800; }
     .prediction-item strong { display: block; }
     .prediction-item small { color: var(--muted); }
     .prediction-confidence { padding: 4px 6px; border-radius: 999px; color: #403784; background: #e4ddff; font-size: .56rem; font-weight: 850; white-space: nowrap; }
     .use-predictions { width: 100%; margin-top: 10px; padding: 9px; }
+    .prediction-step-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 9px; }
+    .prediction-step-head h4 { margin: 0; }
+    .prediction-step-badge { padding: 5px 7px; border-radius: 999px; color: #403784; background: #e4ddff; font-size: .56rem; font-weight: 900; white-space: nowrap; }
+    .prediction-step-copy { margin: -2px 0 10px; color: var(--muted); font-size: .62rem; line-height: 1.45; }
+    .photo-portion-list { display: grid; gap: 7px; }
+    .photo-portion-item { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 10px; border: 1px solid #ddd5ed; border-radius: 8px; background: #f7f3ff; }
+    .photo-portion-food { display: flex; min-width: 0; align-items: center; gap: 8px; color: var(--ink); font-size: .69rem; font-weight: 900; }
+    .photo-portion-food::before { display: grid; width: 24px; height: 24px; flex: 0 0 24px; place-items: center; border-radius: 6px; color: #403784; background: #e4ddff; content: "✓"; }
+    .photo-portion-item select { min-width: 125px; height: 35px; padding: 5px 28px 5px 8px; border: 1px solid #bfb3dc; border-radius: 6px; color: var(--ink); background: white; font: inherit; font-size: .64rem; font-weight: 850; }
+    .prediction-step-actions { display: grid; grid-template-columns: .65fr 1.35fr; gap: 8px; margin-top: 10px; }
+    .prediction-step-actions button { width: 100%; padding: 9px; }
     .input-divider { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; color: var(--muted); font-size: .62rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
     .input-divider::before, .input-divider::after { flex: 1; height: 1px; background: var(--line); content: ""; }
     .meal-quick { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
@@ -1577,12 +1622,26 @@
     .history-day { margin-bottom: 22px; }
     .history-day h3 { margin: 0 0 9px; color: var(--muted); font-size: .69rem; letter-spacing: .08em; text-transform: uppercase; }
     .history-entry { padding: 14px 2px; border-bottom: 1px solid var(--line); }
+    .history-entry-button { width: 100%; border: 0; color: inherit; background: transparent; text-align: left; cursor: pointer; }
+    .history-entry-button:hover { padding-right: 10px; padding-left: 10px; border-radius: 8px; background: #f3edff; }
+    .history-entry-button:focus-visible { outline: 3px solid rgba(108,99,216,.28); outline-offset: 2px; }
     .history-entry-top { display: flex; justify-content: space-between; gap: 12px; }
     .history-entry strong { font-size: .8rem; }
     .history-stars { color: #c07c22; white-space: nowrap; }
     .history-entry p { margin: 5px 0 0; color: var(--muted); font-size: .66rem; }
     .history-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
     .history-tags span { padding: 4px 6px; border-radius: 5px; color: #494079; background: #eee9ff; font-size: .58rem; font-weight: 750; }
+    .history-detail-back { margin-bottom: 14px; padding: 7px 9px; border: 1px solid #c8bce5; border-radius: 7px; color: var(--ink); background: white; font-size: .65rem; font-weight: 850; }
+    .history-detail h3 { margin: 0 0 5px; font-size: 1.25rem; }
+    .history-detail > p { margin: 0; color: var(--muted); font-size: .68rem; }
+    .history-detail-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 16px 0; }
+    .history-detail-stats div { padding: 10px; border: 1px solid #d0c5db; border-radius: 8px; background: #f7f3ff; }
+    .history-detail-stats strong { display: block; font-size: .9rem; }
+    .history-detail-stats span { color: var(--muted); font-size: .57rem; text-transform: uppercase; }
+    .history-detail-section { margin-top: 16px; }
+    .history-detail-section h4 { margin: 0 0 7px; font-size: .76rem; }
+    .history-detail-section ul, .history-detail-section ol { margin: 0; padding-left: 20px; color: var(--muted); font-size: .66rem; line-height: 1.6; }
+    .history-detail-action { width: 100%; margin-top: 18px; }
 
     .shopping-backdrop {
       position: fixed;
@@ -1616,9 +1675,23 @@
     .shopping-empty { padding: 26px 18px; border: 1px dashed #b9acb6; border-radius: 9px; color: var(--muted); text-align: center; }
     .shopping-item { display: flex; align-items: center; gap: 10px; padding: 11px 2px; border-bottom: 1px solid var(--line); font-size: .78rem; font-weight: 750; }
     .shopping-item input { width: 17px; height: 17px; accent-color: var(--orange); }
-    .shopping-item:has(input:checked) span { color: var(--muted); text-decoration: line-through; }
+    .shopping-item-name { min-width: 0; }
+    .shopping-item-price { margin-left: auto; color: #625b69; font-size: .61rem; font-weight: 850; white-space: nowrap; }
+    .shopping-item:has(input:checked) .shopping-item-name { color: var(--muted); text-decoration: line-through; }
+    .shopping-item:has(input:checked) .shopping-item-price { color: #9a949e; }
+    .shopping-estimate { margin: 0 0 13px; padding: 14px; border: 1.5px solid var(--ink); border-radius: 9px; background: #fff0b9; box-shadow: 4px 5px 0 rgba(38,32,68,.12); }
+    .shopping-estimate[hidden] { display: none; }
+    .shopping-estimate-row { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; }
+    .shopping-estimate-row span { color: #5d5665; font-size: .65rem; font-weight: 850; text-transform: uppercase; letter-spacing: .05em; }
+    .shopping-estimate-row strong { color: var(--ink); font-size: 1.25rem; }
+    .shopping-estimate p { margin: 5px 0 0; color: #6f6470; font-size: .58rem; line-height: 1.45; }
     .shopping-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
     .shopping-actions button { padding: 11px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .shopping-button.cart-receive { animation: none; }
+      .shopping-fly-item { display: none; }
+    }
 
     @media (max-width: 900px) {
       .form-panel { display: block; }
@@ -1666,7 +1739,7 @@
 <body>
   <header class="shell nav">
     <a class="brand" href="#top" aria-label="FridgeFix home">
-      <span class="brand-mark" aria-hidden="true">✦</span>
+      <img class="brand-mark" src="assets/fridgefix-logo.png" alt="">
       FridgeFix
     </a>
     <div class="nav-actions">
@@ -1717,7 +1790,7 @@
       <div class="panel rater-panel">
         <div class="rater-head">
           <div><p class="panel-kicker">FoodSwap meal analyzer</p><h2>What is in your current meal?</h2></div>
-          <p>Upload a photo for an AI-assisted first guess, then confirm the foods before FridgeFix estimates energy, nutrient variety, and practical component swaps.</p>
+          <p>Upload a photo for a private, on-device first guess, then confirm the foods before FridgeFix estimates energy, nutrient variety, and practical component swaps.</p>
         </div>
         <div class="photo-analyzer">
           <div class="photo-stage">
@@ -1725,15 +1798,15 @@
             <img id="mealPhotoPreview" alt="Preview of the uploaded meal" hidden>
           </div>
           <div class="photo-copy">
-            <p class="panel-kicker">Photo-assisted identification</p>
-            <h3>Let AI make a plausible first guess</h3>
-            <p>The photo is sent to a pretrained vision model—no custom model training required. Food and portion predictions can be wrong, so you approve them before nutrition analysis.</p>
+            <p class="panel-kicker">Private on-device identification</p>
+            <h3>Run a downloadable food classifier</h3>
+            <p>A pretrained Food-101 model runs inside your browser, so the photo never leaves your device and no API key is needed. It recognizes whole-dish categories—not portions or hidden ingredients—so confirm its suggestions before nutrition analysis.</p>
             <input id="mealPhotoInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" capture="environment" hidden>
             <div class="photo-actions">
               <label for="mealPhotoInput">Take or upload photo</label>
-              <button id="scanMealPhoto" type="button" disabled>Identify foods →</button>
+              <button id="scanMealPhoto" type="button" disabled>Classify on this device →</button>
             </div>
-            <p class="photo-status" id="photoScanStatus" role="status">Choose a clear, well-lit photo showing the whole plate.</p>
+            <p class="photo-status" id="photoScanStatus" role="status">Choose a clear, well-lit photo. The first scan downloads the model (about 60 MB); later scans can use the browser cache.</p>
             <div class="prediction-box" id="photoPredictions" hidden></div>
           </div>
         </div>
@@ -1743,6 +1816,7 @@
           <datalist id="mealComponentSuggestions"></datalist>
           <button class="find-button" id="analyzeMeal" type="button">Analyze my meal →</button>
         </div>
+        <div class="manual-portions" id="manualPortions" hidden></div>
         <p class="quick-label">Try a meal combination</p>
         <div class="meal-quick">
           <button class="chip" type="button" data-meal-example="burger, fries, soda">Burger · fries · soda</button>
@@ -1984,6 +2058,13 @@
         <button class="close-dialog" id="closeShopping" type="button" aria-label="Close shopping list">×</button>
       </div>
       <div class="shopping-items" id="shoppingItems" aria-live="polite"></div>
+      <div class="shopping-estimate" id="shoppingEstimate" hidden>
+        <div class="shopping-estimate-row">
+          <span>Estimated remaining</span>
+          <strong id="shoppingEstimateTotal">$0.00</strong>
+        </div>
+        <p id="shoppingEstimateNote">Based on typical U.S. grocery-unit prices; your store and package sizes will vary.</p>
+      </div>
       <div class="shopping-actions">
         <button class="secondary-action" id="clearShopping" type="button">Clear list</button>
         <button class="view-button" id="copyShopping" type="button">Copy list</button>
@@ -3626,11 +3707,52 @@
       "soybeans": "edamame"
     };
 
+    const garnishOnlyIngredients = new Set([
+      "parsley", "cilantro", "green onion", "sesame seeds", "pumpkin seeds",
+      "walnuts", "pecans", "almonds", "cashews", "hot sauce"
+    ]);
+
+    recipes.forEach(recipe => {
+      const instructions = recipe.steps.join(" ").toLowerCase();
+      recipe.ingredients.forEach(item => {
+        const ingredientName = item.name.toLowerCase();
+        const meaningfulWords = ingredientName.split(/\s+/).filter(word => word.length >= 4);
+        const usedInInstructions = instructions.includes(ingredientName) || meaningfulWords.some(word => instructions.includes(word));
+        if (usedInInstructions && !garnishOnlyIngredients.has(ingredientName)) item.required = true;
+      });
+
+      let requiredCount = recipe.ingredients.filter(item => item.required).length;
+      for (const item of recipe.ingredients) {
+        if (requiredCount >= Math.min(3, recipe.ingredients.length)) break;
+        if (!item.required && !garnishOnlyIngredients.has(item.name.toLowerCase())) {
+          item.required = true;
+          requiredCount += 1;
+        }
+      }
+    });
+
     const knownIngredients = new Set(recipes.flatMap(recipe => recipe.ingredients.map(item => item.name)).sort());
     const quickItems = ["egg", "rice", "beef", "chicken", "tomato", "potato", "spinach", "bread", "banana", "apple", "chickpeas", "pasta", "tofu", "black beans", "oats", "yogurt"];
     const selected = new Set();
     const shoppingList = new Set();
     const purchasedItems = new Set();
+    const groceryPriceEstimates = {
+      avocado: 1.29, bread: 3.29, lemon: .79, lentils: 1.89, cucumber: .99,
+      carrot: 1.49, peas: 2.19, "soy sauce": 2.99, garlic: .69, potato: 2.99,
+      "bell pepper": 1.29, onion: .89, spinach: 2.79, paprika: 2.49, egg: 3.49,
+      rice: 2.79, beef: 6.99, chicken: 5.49, tomato: .89, chickpeas: 1.19,
+      banana: .69, apple: .89, pasta: 1.79, tofu: 2.49, "black beans": 1.19,
+      oats: 3.49, yogurt: 4.29, tortilla: 2.99, lettuce: 2.49, salmon: 8.99,
+      tuna: 1.59, milk: 3.79, cheese: 4.49, feta: 4.99, mozzarella: 4.49,
+      quinoa: 4.49, cauliflower: 3.29, "coconut milk": 2.29, "curry powder": 3.49,
+      hummus: 3.49, pita: 2.99, noodles: 2.29, shrimp: 7.99, broccoli: 2.49,
+      mushrooms: 2.79, zucchini: 1.29, corn: 1.19, edamame: 2.99, berries: 3.99,
+      "peanut butter": 3.29, almonds: 5.99, walnuts: 5.99, "chia seeds": 5.49,
+      "olive oil": 7.99, "sesame oil": 4.49, "sesame seeds": 2.99,
+      flour: 2.49, sugar: 2.79, butter: 4.49, bacon: 5.99, sausage: 5.49,
+      turkey: 5.49, pork: 5.49, "burger bun": 3.49, couscous: 2.49,
+      olives: 3.49, lime: .69, cilantro: 1.19, parsley: 1.19, ginger: 1.29
+    };
     const feedbackLog = [];
     let activeRecipe = null;
     const allergenIngredients = {
@@ -3686,6 +3808,10 @@
     const shoppingDrawer = document.getElementById("shoppingDrawer");
     const shoppingItems = document.getElementById("shoppingItems");
     const shoppingCount = document.getElementById("shoppingCount");
+    const shoppingListButton = document.getElementById("shoppingListButton");
+    const shoppingEstimate = document.getElementById("shoppingEstimate");
+    const shoppingEstimateTotal = document.getElementById("shoppingEstimateTotal");
+    const shoppingEstimateNote = document.getElementById("shoppingEstimateNote");
     const modeChooser = document.getElementById("modeChooser");
     const stepsSection = document.getElementById("how-it-works");
     const finderSection = document.querySelector(".finder");
@@ -3695,12 +3821,112 @@
     const raterStatus = document.getElementById("raterStatus");
     const mealPhotoInput = document.getElementById("mealPhotoInput");
     const mealPhotoPreview = document.getElementById("mealPhotoPreview");
+    const photoEmpty = document.getElementById("photoEmpty");
     const scanMealPhoto = document.getElementById("scanMealPhoto");
     const photoScanStatus = document.getElementById("photoScanStatus");
     const photoPredictions = document.getElementById("photoPredictions");
+    const manualPortions = document.getElementById("manualPortions");
     const historyDrawer = document.getElementById("historyDrawer");
     const historyItems = document.getElementById("historyItems");
+    let visibleHistoryRecords = [];
     let mealPhotoDataUrl = "";
+    let photoPredictionDraft = [];
+    let photoPredictionNote = "";
+    const currentMealPortions = new Map();
+    let localFoodClassifier = null;
+    let localFoodClassifierPromise = null;
+    let foodModelWasCached = false;
+    const LOCAL_FOOD_MODEL = "onnx-community/swin-finetuned-food101-ONNX";
+
+    const food101MealAliases = {
+      hamburger: "burger",
+      cheeseburger: "burger",
+      french_fries: "fries",
+      pizza: "pizza",
+      ice_cream: "ice cream",
+      tacos: "tacos"
+    };
+
+    const FOOD101_LABELS = `
+      apple_pie baby_back_ribs baklava beef_carpaccio beef_tartare beet_salad beignets bibimbap bread_pudding breakfast_burrito
+      bruschetta caesar_salad cannoli caprese_salad carrot_cake ceviche cheesecake cheese_plate chicken_curry chicken_quesadilla
+      chicken_wings chocolate_cake chocolate_mousse churros clam_chowder club_sandwich crab_cakes creme_brulee croque_madame
+      cup_cakes deviled_eggs donuts dumplings edamame eggs_benedict escargots falafel filet_mignon fish_and_chips foie_gras
+      french_fries french_onion_soup french_toast fried_calamari fried_rice frozen_yogurt garlic_bread gnocchi greek_salad
+      grilled_cheese_sandwich grilled_salmon guacamole gyoza hamburger hot_and_sour_soup hot_dog huevos_rancheros hummus ice_cream
+      lasagna lobster_bisque lobster_roll_sandwich macaroni_and_cheese macarons miso_soup mussels nachos omelette onion_rings oysters
+      pad_thai paella pancakes panna_cotta peking_duck pho pizza pork_chop poutine prime_rib pulled_pork_sandwich ramen ravioli
+      red_velvet_cake risotto samosa sashimi scallops seaweed_salad shrimp_and_grits spaghetti_bolognese spaghetti_carbonara
+      spring_rolls steak strawberry_shortcake sushi tacos takoyaki tiramisu tuna_tartare waffles
+    `.trim().split(/\s+/);
+
+    const food101ProfileGroups = {
+      dessert: {
+        labels: `apple_pie baklava beignets bread_pudding cannoli carrot_cake cheesecake chocolate_cake chocolate_mousse churros creme_brulee cup_cakes donuts frozen_yogurt ice_cream macarons panna_cotta red_velvet_cake strawberry_shortcake tiramisu`.split(/\s+/),
+        calories: 420, protein: 7, fiber: 2, sugar: 31, nutrients: ["Calcium"],
+        swap: { name: "fruit and Greek yogurt", calories: 190, protein: 14, fiber: 4, sugar: 17, nutrients: ["Calcium", "Vitamin C"], reason: "Keeps a sweet finish while adding fruit, protein, and a more moderate typical serving." }
+      },
+      fried: {
+        labels: `chicken_wings crab_cakes fish_and_chips french_fries fried_calamari onion_rings poutine samosa spring_rolls takoyaki`.split(/\s+/),
+        calories: 610, protein: 22, fiber: 4, sugar: 4, nutrients: ["Iron", "Potassium"],
+        swap: { name: "baked or grilled version with vegetables", calories: 410, protein: 27, fiber: 7, sugar: 5, nutrients: ["Iron", "Vitamin A", "Vitamin C"], reason: "Uses a similar main food with less frying and adds vegetables for fibre and nutrient variety." }
+      },
+      meat: {
+        labels: `baby_back_ribs beef_carpaccio beef_tartare chicken_curry filet_mignon foie_gras hot_dog peking_duck pork_chop prime_rib pulled_pork_sandwich steak`.split(/\s+/),
+        calories: 560, protein: 36, fiber: 2, sugar: 5, nutrients: ["Iron", "Vitamin B12"],
+        swap: { name: "lean grilled protein with vegetables", calories: 390, protein: 38, fiber: 7, sugar: 5, nutrients: ["Iron", "Vitamin B12", "Vitamin C"], reason: "Keeps a protein-centred meal while reducing rich extras and increasing vegetables." }
+      },
+      seafood: {
+        labels: `ceviche escargots grilled_salmon mussels oysters sashimi scallops sushi tuna_tartare`.split(/\s+/),
+        calories: 390, protein: 30, fiber: 3, sugar: 4, nutrients: ["Vitamin B12", "Omega-3"],
+        swap: { name: "grilled seafood with vegetables", calories: 330, protein: 33, fiber: 6, sugar: 5, nutrients: ["Vitamin B12", "Omega-3", "Vitamin C"], reason: "Keeps seafood as the main protein and pairs it with a less rich preparation and vegetables." }
+      },
+      salad: {
+        labels: `beet_salad caesar_salad caprese_salad greek_salad seaweed_salad`.split(/\s+/),
+        calories: 320, protein: 11, fiber: 7, sugar: 9, nutrients: ["Vitamin A", "Vitamin C", "Folate"],
+        swap: { name: "salad with dressing on the side and lean protein", calories: 290, protein: 23, fiber: 8, sugar: 8, nutrients: ["Vitamin A", "Vitamin C", "Folate"], reason: "Preserves the salad while making the dressing flexible and adding a satisfying protein source." }
+      },
+      soup: {
+        labels: `clam_chowder french_onion_soup hot_and_sour_soup lobster_bisque miso_soup pho ramen`.split(/\s+/),
+        calories: 390, protein: 18, fiber: 4, sugar: 7, nutrients: ["Iron", "Potassium"],
+        swap: { name: "broth-based soup with extra vegetables", calories: 300, protein: 20, fiber: 7, sugar: 7, nutrients: ["Vitamin A", "Vitamin C", "Potassium"], reason: "A broth-forward version can keep the comfort of soup while adding vegetables and moderating rich ingredients." }
+      },
+      starch: {
+        labels: `bibimbap fried_rice gnocchi lasagna macaroni_and_cheese pad_thai paella ravioli risotto shrimp_and_grits spaghetti_bolognese spaghetti_carbonara`.split(/\s+/),
+        calories: 540, protein: 21, fiber: 5, sugar: 7, nutrients: ["Iron", "Magnesium"],
+        swap: { name: "vegetable-forward whole-grain version", calories: 420, protein: 23, fiber: 9, sugar: 8, nutrients: ["Iron", "Magnesium", "Vitamin C"], reason: "Keeps the familiar base while increasing vegetables and fibre and moderating the typical portion." }
+      },
+      sandwich: {
+        labels: `breakfast_burrito chicken_quesadilla club_sandwich croque_madame grilled_cheese_sandwich hamburger lobster_roll_sandwich pizza tacos`.split(/\s+/),
+        calories: 550, protein: 25, fiber: 4, sugar: 8, nutrients: ["Iron", "Calcium"],
+        swap: { name: "whole-grain version with lean filling and vegetables", calories: 410, protein: 29, fiber: 8, sugar: 7, nutrients: ["Iron", "Vitamin C"], reason: "Keeps the handheld or familiar format with a leaner filling, more vegetables, and additional fibre." }
+      },
+      breakfast: {
+        labels: `eggs_benedict french_toast huevos_rancheros omelette pancakes waffles`.split(/\s+/),
+        calories: 450, protein: 17, fiber: 4, sugar: 16, nutrients: ["Iron", "Vitamin B12"],
+        swap: { name: "higher-protein breakfast with fruit", calories: 340, protein: 24, fiber: 7, sugar: 14, nutrients: ["Vitamin B12", "Vitamin C"], reason: "Adds protein and fruit while keeping the meal practical and familiar." }
+      },
+      appetizer: {
+        labels: `bruschetta cheese_plate deviled_eggs dumplings edamame falafel garlic_bread guacamole gyoza hummus nachos`.split(/\s+/),
+        calories: 410, protein: 15, fiber: 6, sugar: 5, nutrients: ["Iron", "Folate"],
+        swap: { name: "smaller portion with vegetables and lean protein", calories: 300, protein: 21, fiber: 8, sugar: 6, nutrients: ["Iron", "Folate", "Vitamin C"], reason: "Keeps the flavour profile but creates a more complete meal with vegetables and protein." }
+      }
+    };
+
+    const food101SpecificProfiles = {
+      poutine: {
+        calories: 740, protein: 19, fiber: 7, sugar: 4, nutrients: ["Calcium", "Potassium"],
+        swap: { name: "baked potato bowl with light gravy and cheese", calories: 480, protein: 22, fiber: 9, sugar: 5, nutrients: ["Calcium", "Potassium", "Vitamin C"], reason: "Keeps potatoes, gravy, and cheese in a lighter baked format with a more moderate portion." }
+      },
+      bread_pudding: {
+        calories: 430, protein: 8, fiber: 2, sugar: 34, nutrients: ["Calcium"],
+        swap: { name: "baked apple yogurt oat cup", calories: 230, protein: 13, fiber: 6, sugar: 19, nutrients: ["Calcium", "Vitamin C"], reason: "Keeps a warm, soft dessert while adding fruit, oats, and protein." }
+      },
+      waffles: {
+        calories: 410, protein: 10, fiber: 3, sugar: 15, nutrients: ["Iron", "Calcium"],
+        swap: { name: "whole-grain waffles with berries and yogurt", calories: 330, protein: 18, fiber: 8, sugar: 16, nutrients: ["Calcium", "Vitamin C", "Iron"], reason: "Keeps waffles while adding whole grains, fruit, and a higher-protein topping." }
+      }
+    };
 
     function normalizeIngredient(value) {
       const clean = value.trim().toLowerCase().replace(/[^a-z\s-]/g, "").replace(/\s+/g, " ");
@@ -3949,7 +4175,10 @@
     }
 
     function openRecipe(recipeId) {
-      const rankedRecipe = rankRecipes().find(recipe => recipe.id === recipeId);
+      const rankedRecipe = rankRecipes().find(recipe => recipe.id === recipeId) || (() => {
+        const savedRecipe = recipes.find(recipe => recipe.id === recipeId);
+        return savedRecipe ? { ...savedRecipe, owned: [...selected], score: 0 } : null;
+      })();
       if (!rankedRecipe) return;
       activeRecipe = rankedRecipe;
       const missingRequired = getMissingRequired(rankedRecipe);
@@ -4087,7 +4316,25 @@
         renderIngredientChips();
       }
 
-      const record = { recipeId: activeRecipe.id, recipeName: activeRecipe.name, rating, leftovers, feedback, cookedAt: new Date().toISOString() };
+      const record = {
+        recipeId: activeRecipe.id,
+        recipeName: activeRecipe.name,
+        rating,
+        leftovers,
+        feedback,
+        cookedAt: new Date().toISOString(),
+        recipeSnapshot: {
+          emoji: activeRecipe.emoji,
+          cuisine: activeRecipe.cuisine,
+          mealType: activeRecipe.mealType,
+          calories: activeRecipe.calories,
+          protein: activeRecipe.protein,
+          fiber: activeRecipe.fiber,
+          time: activeRecipe.time,
+          ingredients: activeRecipe.ingredients.map(item => ({ name: item.name, amount: item.amount })),
+          steps: [...activeRecipe.steps]
+        }
+      };
       feedbackLog.push(record);
       try {
         const stored = JSON.parse(localStorage.getItem("fridgefix-checkins") || "[]");
@@ -4141,9 +4388,9 @@
           nutrients
         });
       }
-      currentMealInput.value = activeRecipe.name;
       closeDialog();
       chooseMode("rate");
+      currentMealInput.value = activeRecipe.name;
       raterStatus.textContent = `Loaded ${activeRecipe.name} from your cooking check-in. Review the estimate and possible improvements below.`;
       window.setTimeout(analyzeCurrentMeal, 250);
     }
@@ -4170,27 +4417,99 @@
       if (!shoppingDrawer.classList.contains("open") && !historyDrawer.classList.contains("open")) document.body.style.overflow = "";
     }
 
+    function estimatedGroceryPrice(item) {
+      const name = String(item).toLowerCase();
+      if (groceryPriceEstimates[name] != null) return groceryPriceEstimates[name];
+      if (/chicken|beef|pork|turkey|fish|salmon|tuna|shrimp|sausage|bacon/.test(name)) return 5.99;
+      if (/milk|cheese|yogurt|cream|butter/.test(name)) return 3.99;
+      if (/pepper|tomato|onion|garlic|lemon|lime|carrot|spinach|lettuce|fruit|apple|banana/.test(name)) return 1.29;
+      if (/sauce|oil|spice|powder|seasoning|vinegar/.test(name)) return 3.49;
+      if (/rice|pasta|noodle|oat|flour|grain|bread|tortilla/.test(name)) return 2.79;
+      return 2.49;
+    }
+
     function updateShoppingList() {
+      const allItems = [...shoppingList].sort();
+      const remaining = allItems.filter(item => !purchasedItems.has(item));
+      const remainingTotal = remaining.reduce((sum, item) => sum + estimatedGroceryPrice(item), 0);
+      const fullTotal = allItems.reduce((sum, item) => sum + estimatedGroceryPrice(item), 0);
       shoppingCount.textContent = shoppingList.size;
       shoppingItems.innerHTML = shoppingList.size
-        ? [...shoppingList].sort().map(item => `
+        ? allItems.map(item => `
             <label class="shopping-item">
               <input type="checkbox" data-purchased="${escapeHtml(item)}" ${purchasedItems.has(item) ? "checked" : ""}>
-              <span>${escapeHtml(item)}</span>
+              <span class="shopping-item-name">${escapeHtml(item)}</span>
+              <span class="shopping-item-price">≈ $${estimatedGroceryPrice(item).toFixed(2)}</span>
             </label>`).join("")
         : `<div class="shopping-empty"><strong>Your list is empty.</strong><br>Add the required gaps from a recipe or full plan.</div>`;
+
+      shoppingEstimate.hidden = !shoppingList.size;
+      shoppingEstimateTotal.textContent = `$${remainingTotal.toFixed(2)}`;
+      shoppingEstimateNote.textContent = purchasedItems.size
+        ? `${remaining.length} item${remaining.length === 1 ? "" : "s"} left · full list about $${fullTotal.toFixed(2)}. Typical U.S. grocery-unit prices; stores vary.`
+        : `For ${allItems.length} grocery item${allItems.length === 1 ? "" : "s"}. Typical U.S. grocery-unit prices; stores and package sizes vary.`;
     }
 
-    function addShoppingItems(items) {
-      items.forEach(item => shoppingList.add(item));
+    function animateShoppingItems(sourceElement, items) {
+      if (!sourceElement || !items.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return 0;
+      const sourceRect = sourceElement.getBoundingClientRect();
+      const targetRect = shoppingListButton.getBoundingClientRect();
+      if (!sourceRect.width || !sourceRect.height) return 0;
+
+      const startX = sourceRect.left + sourceRect.width / 2;
+      const startY = sourceRect.top + sourceRect.height / 2;
+      const targetVisible = targetRect.bottom > 0 && targetRect.top < window.innerHeight;
+      const targetX = targetVisible ? targetRect.left + targetRect.width / 2 : window.innerWidth - 38;
+      const targetY = targetVisible ? targetRect.top + targetRect.height / 2 : 38;
+      const shownItems = items.length > 5 ? [...items.slice(0, 4), `+${items.length - 4} more`] : items;
+
+      shownItems.forEach((item, index) => {
+        const pill = document.createElement("span");
+        pill.className = "shopping-fly-item";
+        pill.textContent = item;
+        pill.setAttribute("aria-hidden", "true");
+        pill.style.left = `${startX}px`;
+        pill.style.top = `${startY + (index - (shownItems.length - 1) / 2) * 5}px`;
+        document.body.appendChild(pill);
+
+        const delay = index * 85;
+        const midpointX = startX + (targetX - startX) * .54;
+        const midpointY = Math.min(startY, targetY) - 58 - index * 5;
+        const flight = pill.animate([
+          { left: `${startX}px`, top: `${startY}px`, opacity: 0, transform: "translate(-50%, -50%) scale(.72) rotate(0deg)" },
+          { offset: .12, opacity: 1, transform: "translate(-50%, -50%) scale(1.04) rotate(-2deg)" },
+          { offset: .58, left: `${midpointX}px`, top: `${midpointY}px`, opacity: 1, transform: "translate(-50%, -50%) scale(.94) rotate(3deg)" },
+          { left: `${targetX}px`, top: `${targetY}px`, opacity: 0, transform: "translate(-50%, -50%) scale(.22) rotate(8deg)" }
+        ], { duration: 720, delay, easing: "cubic-bezier(.22,.76,.28,1)", fill: "forwards" });
+        flight.finished.catch(() => {}).finally(() => pill.remove());
+      });
+
+      const finishDelay = 720 + (shownItems.length - 1) * 85;
+      window.setTimeout(() => {
+        shoppingListButton.classList.remove("cart-receive");
+        void shoppingListButton.offsetWidth;
+        shoppingListButton.classList.add("cart-receive");
+        window.setTimeout(() => shoppingListButton.classList.remove("cart-receive"), 520);
+      }, Math.max(0, finishDelay - 170));
+      return finishDelay + 130;
+    }
+
+    let shoppingOpenTimer = null;
+    function addShoppingItems(items, sourceElement) {
+      const cleanItems = [...new Set(items.map(item => String(item).trim().toLowerCase()).filter(Boolean))];
+      const addedItems = cleanItems.filter(item => !shoppingList.has(item));
+      cleanItems.forEach(item => shoppingList.add(item));
       updateShoppingList();
-      openShoppingList();
+      const animationDelay = animateShoppingItems(sourceElement, addedItems);
+      window.clearTimeout(shoppingOpenTimer);
+      if (animationDelay) shoppingOpenTimer = window.setTimeout(openShoppingList, animationDelay);
+      else openShoppingList();
     }
 
-    function addRecipeGaps(recipeId) {
+    function addRecipeGaps(recipeId, sourceElement) {
       const recipe = rankRecipes().find(item => item.id === recipeId);
       if (!recipe) return;
-      addShoppingItems(getMissingRequired(recipe).map(item => item.name));
+      addShoppingItems(getMissingRequired(recipe).map(item => item.name), sourceElement);
     }
 
     function openShoppingList() {
@@ -4207,7 +4526,8 @@
     async function copyShoppingList() {
       const remaining = [...shoppingList].filter(item => !purchasedItems.has(item)).sort();
       if (!remaining.length) return;
-      const text = `FridgeFix shopping list\n${remaining.map(item => `- ${item}`).join("\n")}`;
+      const total = remaining.reduce((sum, item) => sum + estimatedGroceryPrice(item), 0);
+      const text = `FridgeFix shopping list\n${remaining.map(item => `- ${item} (about $${estimatedGroceryPrice(item).toFixed(2)})`).join("\n")}\nEstimated remaining total: $${total.toFixed(2)}`;
       try {
         await navigator.clipboard.writeText(text);
       } catch (clipboardError) {
@@ -4229,10 +4549,32 @@
       return value.replace(/[&<>'"]/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char]);
     }
 
-    function chooseMode(mode) {
+    function resetMealAnalyzer() {
+      mealPhotoDataUrl = "";
+      mealPhotoInput.value = "";
+      mealPhotoPreview.removeAttribute("src");
+      mealPhotoPreview.hidden = true;
+      photoEmpty.hidden = false;
+      photoPredictions.innerHTML = "";
+      photoPredictions.hidden = true;
+      scanMealPhoto.disabled = true;
+      scanMealPhoto.textContent = "Classify on this device →";
+      photoScanStatus.classList.remove("error");
+      photoScanStatus.textContent = "Choose a clear, well-lit photo. The first scan downloads the model (about 60 MB); later scans can use the browser cache.";
+      currentMealInput.value = "";
+      currentMealPortions.clear();
+      manualPortions.innerHTML = "";
+      manualPortions.hidden = true;
+      raterStatus.textContent = "";
+      raterResults.innerHTML = "";
+      raterResults.hidden = true;
+    }
+
+    function chooseMode(mode, options = {}) {
       document.body.classList.remove("show-results");
       resultsView.hidden = true;
       if (mode === "rate") {
+        if (!options.keepMeal) resetMealAnalyzer();
         stepsSection.hidden = true;
         finderSection.hidden = true;
         mealRater.hidden = false;
@@ -4267,6 +4609,28 @@
       return totals;
     }
 
+    function scaleMealComponent(component, portion = { multiplier: 1, label: "Medium" }) {
+      const multiplier = Number(portion.multiplier) || 1;
+      const scale = value => Math.round(value * multiplier);
+      const scaledSwap = component.swap ? {
+        ...component.swap,
+        calories: scale(component.swap.calories),
+        protein: scale(component.swap.protein),
+        fiber: scale(component.swap.fiber),
+        sugar: scale(component.swap.sugar)
+      } : undefined;
+      return {
+        ...component,
+        calories: scale(component.calories),
+        protein: scale(component.protein),
+        fiber: scale(component.fiber),
+        sugar: scale(component.sugar),
+        swap: scaledSwap,
+        portionMultiplier: multiplier,
+        portionLabel: portion.label || "Medium"
+      };
+    }
+
     function calculateMealScore(totals) {
       const excessCalories = Math.max(0, totals.calories - 750) / 15;
       const highSugar = Math.max(0, totals.sugar - 25) * .7;
@@ -4299,78 +4663,338 @@
       });
     }
 
+    function renderPhotoConfirmationStep(items) {
+      photoPredictions.innerHTML = `
+        <div class="prediction-step-head">
+          <h4>Choose every food that is actually visible</h4>
+          <span class="prediction-step-badge">Step 1 of 2</span>
+        </div>
+        <p class="prediction-step-copy">Confirm the model's labels first. Portion size comes next, after the uncertain alternatives are removed.</p>
+        <div class="prediction-list">
+          ${items.map((item, index) => `
+            <div class="prediction-item">
+              <input type="checkbox" data-photo-choice aria-label="Use predicted food ${index + 1}" ${item.selected ? "checked" : ""}>
+              <div class="prediction-details">
+                <input class="prediction-name" data-prediction-name aria-label="Predicted food ${index + 1}" value="${escapeHtml(item.name)}">
+                <div class="prediction-meta"><small>${escapeHtml(item.estimatedPortion || "Food-101 category")}</small></div>
+              </div>
+              <span class="prediction-confidence">${Number(item.confidence) > 0 && Number(item.confidence) < .005 ? "&lt;1" : Math.round(Math.max(0, Math.min(1, Number(item.confidence) || 0)) * 100)}% sure</span>
+            </div>`).join("")}
+        </div>
+        <button class="view-button use-predictions" type="button" data-confirm-photo-foods>Confirm selected foods →</button>`;
+      photoPredictions.hidden = false;
+    }
+
     function renderPhotoPredictions(result) {
       const items = Array.isArray(result.items) ? result.items : [];
       if (!items.length) throw new Error("The model could not identify a clear food item. Try a closer photo or describe the meal manually.");
-      photoPredictions.innerHTML = `
-        <h4>Confirm or edit the prediction</h4>
-        <div class="prediction-list">
-          ${items.map((item, index) => `
-            <label class="prediction-item">
-              <input type="checkbox" data-photo-choice checked>
-              <span><input class="prediction-name" data-prediction-name aria-label="Predicted food ${index + 1}" value="${escapeHtml(item.name)}"><small>${escapeHtml(item.estimatedPortion || "typical serving")}</small></span>
-              <span class="prediction-confidence">${Math.round(Math.max(0, Math.min(1, Number(item.confidence) || 0)) * 100)}% sure</span>
-            </label>`).join("")}
-        </div>
-        <button class="view-button use-predictions" type="button" data-use-photo-predictions>Use confirmed foods →</button>`;
-      photoPredictions.hidden = false;
+      photoPredictionDraft = items.map((item, index) => ({ ...item, selected: index === 0 }));
+      photoPredictionNote = result.notes || "These are visual estimates. Confirm the foods and edit any wrong labels before continuing.";
+      renderPhotoConfirmationStep(photoPredictionDraft);
       photoScanStatus.classList.remove("error");
-      photoScanStatus.textContent = result.notes || "These are visual estimates. Confirm the foods and edit any wrong labels before continuing.";
+      photoScanStatus.textContent = photoPredictionNote;
+    }
+
+    function readableFood101Label(label) {
+      return String(label || "food")
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, "_")
+        .replace(/[^a-z0-9_]/g, "")
+        .replace(/_+/g, "_");
+    }
+
+    function food101ToMealName(label) {
+      const normalized = readableFood101Label(label);
+      return food101MealAliases[normalized] || normalized.replace(/_/g, " ");
+    }
+
+    function registerFood101MealComponents() {
+      const groupLookup = new Map();
+      Object.values(food101ProfileGroups).forEach(profile => {
+        profile.labels.forEach(label => groupLookup.set(label, profile));
+      });
+
+      const fallback = {
+        calories: 460, protein: 22, fiber: 5, sugar: 8, nutrients: ["Iron", "Potassium"],
+        swap: { name: "smaller portion with vegetables and lean protein", calories: 350, protein: 27, fiber: 8, sugar: 7, nutrients: ["Iron", "Vitamin A", "Vitamin C"], reason: "Uses a more moderate typical portion and adds vegetables and lean protein for balance." }
+      };
+
+      FOOD101_LABELS.forEach(label => {
+        const name = food101ToMealName(label);
+        const existingComponent = mealComponents.find(component => component.name === name || component.aliases.includes(name));
+        if (existingComponent) {
+          if (!existingComponent.swap) existingComponent.swap = { ...fallback.swap, nutrients: [...fallback.swap.nutrients] };
+          return;
+        }
+
+        const profile = food101SpecificProfiles[label] || groupLookup.get(label) || fallback;
+        mealComponents.push({
+          name,
+          aliases: [],
+          calories: profile.calories,
+          protein: profile.protein,
+          fiber: profile.fiber,
+          sugar: profile.sugar,
+          nutrients: [...profile.nutrients],
+          swap: profile.swap ? { ...profile.swap, nutrients: [...profile.swap.nutrients] } : undefined,
+          estimateSource: "Food-101 typical serving"
+        });
+      });
+    }
+
+    registerFood101MealComponents();
+
+    async function checkFoodModelCache() {
+      if (!("caches" in window)) return false;
+      try {
+        const cacheNames = await caches.keys();
+        for (const cacheName of cacheNames) {
+          const cache = await caches.open(cacheName);
+          const requests = await cache.keys();
+          if (requests.some(request => request.url.includes(LOCAL_FOOD_MODEL) && request.url.includes("model_q4.onnx"))) return true;
+        }
+      } catch (cacheError) {
+        // Cache inspection can be blocked in private browsing; model loading still works.
+      }
+      return localStorage.getItem("fridgefix-food-model-ready") === "true";
+    }
+
+    function updateModelDownloadStatus(progress) {
+      if (!progress || progress.status !== "progress") return;
+      const percent = Number(progress.progress);
+      if (!Number.isFinite(percent)) return;
+      const fileName = String(progress.file || "model").split("/").pop();
+      photoScanStatus.textContent = foodModelWasCached
+        ? `Loading cached ${fileName}: ${Math.round(percent)}%. No model re-download is needed.`
+        : `Downloading ${fileName}: ${Math.round(percent)}%. This happens only on the first scan for this site and browser.`;
+    }
+
+    async function createLocalFoodClassifier() {
+      foodModelWasCached = await checkFoodModelCache();
+      photoScanStatus.textContent = foodModelWasCached
+        ? "Loading the Food-101 classifier from this browser's cache…"
+        : "Downloading the private Food-101 classifier for this browser…";
+      const { pipeline, env } = await import("https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1");
+      env.useBrowserCache = true;
+      env.useWasmCache = true;
+      navigator.storage?.persist?.().catch(() => false);
+      const options = { dtype: "q4", progress_callback: updateModelDownloadStatus };
+
+      let classifier;
+
+      if ("gpu" in navigator) {
+        try {
+          photoScanStatus.textContent = "Starting the classifier with WebGPU…";
+          classifier = await pipeline("image-classification", LOCAL_FOOD_MODEL, { ...options, device: "webgpu" });
+        } catch (webGpuError) {
+          console.warn("WebGPU was unavailable; falling back to WebAssembly.", webGpuError);
+        }
+      }
+
+      if (!classifier) {
+        photoScanStatus.textContent = foodModelWasCached ? "Starting the cached classifier with WebAssembly…" : "Starting the classifier with WebAssembly…";
+        classifier = await pipeline("image-classification", LOCAL_FOOD_MODEL, { ...options, device: "wasm" });
+      }
+
+      try { localStorage.setItem("fridgefix-food-model-ready", "true"); } catch (storageError) {}
+      return classifier;
+    }
+
+    async function getLocalFoodClassifier() {
+      if (localFoodClassifier) return localFoodClassifier;
+      if (!localFoodClassifierPromise) {
+        localFoodClassifierPromise = createLocalFoodClassifier()
+          .then(classifier => {
+            localFoodClassifier = classifier;
+            return classifier;
+          })
+          .catch(error => {
+            localFoodClassifierPromise = null;
+            throw error;
+          });
+      }
+      return localFoodClassifierPromise;
     }
 
     async function identifyMealPhoto() {
       if (!mealPhotoDataUrl) return;
       scanMealPhoto.disabled = true;
-      scanMealPhoto.textContent = "Identifying…";
+      scanMealPhoto.textContent = "Loading model…";
       photoPredictions.hidden = true;
       photoScanStatus.classList.remove("error");
-      photoScanStatus.textContent = "Checking the plate with the vision model…";
+      photoScanStatus.textContent = "Preparing the local classifier…";
       try {
-        if (window.location.protocol === "file:") {
-          throw new Error("Your photo loaded, but no AI model examined it because this HTML file is open directly. Photo identification needs the deployed app or a local server with the /api endpoint.");
+        const classifier = await getLocalFoodClassifier();
+        scanMealPhoto.textContent = "Classifying…";
+        photoScanStatus.textContent = "Analyzing this photo on your device…";
+        const predictions = await classifier(mealPhotoDataUrl, { topk: 5 });
+        const uniquePredictions = [];
+        const usedNames = new Set();
+
+        for (const prediction of predictions) {
+          const name = food101ToMealName(prediction.label);
+          if (usedNames.has(name)) continue;
+          usedNames.add(name);
+          uniquePredictions.push({
+            name,
+            confidence: Number(prediction.score) || 0,
+            estimatedPortion: "possible whole-dish category"
+          });
         }
-        const response = await fetch("/api/analyze-meal", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ imageDataUrl: mealPhotoDataUrl })
+
+        renderPhotoPredictions({
+          items: uniquePredictions,
+          notes: "The top result is selected. The other rows are alternative Food-101 guesses—not guaranteed extra foods. Check only items truly visible, edit labels, and add missing sides manually."
         });
-        const result = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(result.error || "Your photo loaded, but the AI endpoint is not running in this preview. No model examined the food.");
-        renderPhotoPredictions(result);
       } catch (scanError) {
         photoScanStatus.classList.add("error");
-        const connectionMessage = scanError instanceof TypeError || scanError.message === "Failed to fetch"
-          ? "Your photo loaded, but the AI endpoint could not be reached—so the food was never analyzed. Open the deployed app with its API configured, or enter the meal manually below."
-          : `${scanError.message} You can still enter the meal manually below.`;
-        photoScanStatus.textContent = connectionMessage;
+        photoScanStatus.textContent = `The local classifier could not start: ${scanError.message || "unknown browser error"}. Check your connection for the first model download, or describe the meal manually below.`;
       } finally {
         scanMealPhoto.disabled = false;
-        scanMealPhoto.textContent = "Identify foods →";
+        scanMealPhoto.textContent = "Classify on this device →";
       }
     }
 
-    function usePhotoPredictions() {
-      const names = [...photoPredictions.querySelectorAll("[data-photo-choice]:checked")]
-        .map(checkbox => checkbox.closest(".prediction-item").querySelector("[data-prediction-name]").value.trim())
-        .filter(Boolean);
-      if (!names.length) {
+    function confirmPhotoFoods() {
+      photoPredictionDraft = [...photoPredictions.querySelectorAll(".prediction-item")].map((row, index) => ({
+        ...(photoPredictionDraft[index] || {}),
+        name: row.querySelector("[data-prediction-name]").value.trim(),
+        selected: row.querySelector("[data-photo-choice]").checked
+      }));
+      const confirmedFoods = photoPredictionDraft.filter(item => item.selected && item.name);
+      if (!confirmedFoods.length) {
         photoScanStatus.classList.add("error");
         photoScanStatus.textContent = "Keep at least one predicted food, or enter the meal manually.";
         return;
       }
-      currentMealInput.value = names.join(", ");
+
+      photoScanStatus.classList.remove("error");
+      photoScanStatus.textContent = `${confirmedFoods.length} food${confirmedFoods.length === 1 ? "" : "s"} confirmed. Choose the closest portion size for each one.`;
+      photoPredictions.innerHTML = `
+        <div class="prediction-step-head">
+          <h4>Choose the portion of each confirmed food</h4>
+          <span class="prediction-step-badge">Step 2 of 2</span>
+        </div>
+        <p class="prediction-step-copy">Only confirmed foods appear here. These sizes scale a typical serving; they are not measurements from the photo.</p>
+        <div class="photo-portion-list">
+          ${confirmedFoods.map((item, index) => `
+            <div class="photo-portion-item" data-confirmed-photo-food="${escapeHtml(item.name)}">
+              <span class="photo-portion-food">${escapeHtml(item.name)}</span>
+              <select data-confirmed-photo-portion aria-label="Portion size for ${escapeHtml(item.name)}">
+                <option value="0.75" data-label="Small">Small · 0.75×</option>
+                <option value="1" data-label="Medium" selected>Medium · 1×</option>
+                <option value="1.5" data-label="Large">Large · 1.5×</option>
+              </select>
+            </div>`).join("")}
+        </div>
+        <div class="prediction-step-actions">
+          <button class="secondary-action" type="button" data-back-photo-foods>← Change foods</button>
+          <button class="view-button" type="button" data-use-photo-predictions>Analyze these portions →</button>
+        </div>`;
+    }
+
+    function usePhotoPredictions() {
+      const selectedFoods = [...photoPredictions.querySelectorAll("[data-confirmed-photo-food]")]
+        .map(row => {
+          const portionSelect = row.querySelector("[data-confirmed-photo-portion]");
+          return {
+            name: row.dataset.confirmedPhotoFood,
+            multiplier: Number(portionSelect.value) || 1,
+            label: portionSelect.selectedOptions[0]?.dataset.label || "Medium"
+          };
+        })
+        .filter(item => item.name);
+      if (!selectedFoods.length) {
+        photoScanStatus.classList.add("error");
+        photoScanStatus.textContent = "Return to the food confirmation step and keep at least one food.";
+        return;
+      }
+      currentMealPortions.clear();
+      selectedFoods.forEach(item => {
+        const component = findMealComponent(item.name);
+        if (component) currentMealPortions.set(component.name, { multiplier: item.multiplier, label: item.label });
+      });
+      currentMealInput.value = selectedFoods.map(item => item.name).join(", ");
       analyzeCurrentMeal();
     }
 
-    function analyzeCurrentMeal() {
+    function renderManualPortionControls(rawItems) {
+      const components = [];
+      const usedNames = new Set();
+      rawItems.forEach(rawItem => {
+        const component = findMealComponent(rawItem);
+        if (!component || usedNames.has(component.name)) return;
+        usedNames.add(component.name);
+        components.push(component);
+      });
+
+      if (!components.length) {
+        manualPortions.innerHTML = "";
+        manualPortions.hidden = true;
+        return;
+      }
+
+      manualPortions.innerHTML = `
+        <h4>Adjust each portion before calculating</h4>
+        <div class="manual-portion-grid">
+          ${components.map(component => {
+            const portion = currentMealPortions.get(component.name) || { multiplier: 1, label: "Medium" };
+            return `<div class="manual-portion-item">
+              <span>${escapeHtml(component.name)}</span>
+              <select data-manual-portion="${escapeHtml(component.name)}" aria-label="Portion size for ${escapeHtml(component.name)}">
+                <option value="0.75" data-label="Small" ${portion.multiplier === .75 ? "selected" : ""}>Small · 0.75×</option>
+                <option value="1" data-label="Medium" ${portion.multiplier === 1 ? "selected" : ""}>Medium · 1×</option>
+                <option value="1.5" data-label="Large" ${portion.multiplier === 1.5 ? "selected" : ""}>Large · 1.5×</option>
+              </select>
+            </div>`;
+          }).join("")}
+        </div>`;
+      manualPortions.hidden = false;
+    }
+
+    function describeMealWithoutPresetSwap(before, recognized) {
+      const observations = [];
+      if (before.calories <= 450) observations.push(`estimated calories are relatively moderate at ${before.calories}`);
+      else if (before.calories >= 800) observations.push(`estimated calories are relatively high at ${before.calories}`);
+      else observations.push(`estimated energy is about ${before.calories} calories`);
+
+      if (before.protein >= 25) observations.push(`protein is relatively high at ${before.protein}g`);
+      else if (before.protein >= 15) observations.push(`protein is moderate at ${before.protein}g`);
+      else observations.push(`protein is fairly low at ${before.protein}g`);
+
+      if (before.fiber >= 8) observations.push(`fiber is strong at ${before.fiber}g`);
+      else if (before.fiber < 4) observations.push(`fiber is low at ${before.fiber}g`);
+      else observations.push(`fiber is moderate at ${before.fiber}g`);
+
+      const improvements = [];
+      if (before.calories >= 800) improvements.push("choose a smaller portion if that fits your needs");
+      if (before.protein < 15) improvements.push("add a practical protein source");
+      if (before.fiber < 8) improvements.push("add vegetables, fruit, beans, or a whole grain");
+      if (before.nutrients.length < 4) improvements.push("add another colorful plant food for more nutrient variety");
+      if (!improvements.length) improvements.push("adjust the portion or add vegetables according to your own goal");
+
+      const names = recognized.map(item => item.name).join(", ");
+      return `No stored replacement rule was triggered for ${names}. This is not an automatic “healthy enough” result. Based on the selected portions, ${observations.join(", and ")}. You could ${improvements.join("; ")}.`;
+    }
+
+    function analyzeCurrentMeal(refreshPortionControls = true) {
       const rawItems = currentMealInput.value.split(",").map(item => item.trim()).filter(Boolean);
-      const recognized = rawItems.map(findMealComponent).filter(Boolean);
+      const recognized = rawItems.map(rawItem => {
+        const component = findMealComponent(rawItem);
+        if (!component) return null;
+        const portion = currentMealPortions.get(component.name) || { multiplier: 1, label: "Medium" };
+        return scaleMealComponent(component, portion);
+      }).filter(Boolean);
       const unknown = rawItems.filter(item => !findMealComponent(item));
       if (!recognized.length) {
         raterStatus.textContent = "Enter at least one recognized component, such as burger, fries, soda, pizza, salad, rice, or grilled chicken.";
+        manualPortions.hidden = true;
         raterResults.hidden = true;
         return;
       }
+
+      if (refreshPortionControls) renderManualPortionControls(rawItems);
 
       const before = totalMealNutrition(recognized);
       const after = totalMealNutrition(recognized, true);
@@ -4378,9 +5002,10 @@
       const improvedScore = calculateMealScore(after);
       const swaps = recognized.filter(item => item.swap);
       const label = score >= 80 ? "Strong balance" : score >= 60 ? "Some good foundations" : "Most useful improvement opportunity";
+      const portionSummary = recognized.map(item => `${item.portionLabel.toLowerCase()} ${item.name}`).join(", ");
       raterStatus.textContent = unknown.length
-        ? `${recognized.length} component${recognized.length === 1 ? "" : "s"} analyzed. Not recognized: ${unknown.join(", ")}.`
-        : `${recognized.length} component${recognized.length === 1 ? "" : "s"} analyzed from the prototype library.`;
+        ? `${recognized.length} component${recognized.length === 1 ? "" : "s"} analyzed with selected portions (${portionSummary}). Not recognized: ${unknown.join(", ")}.`
+        : `${recognized.length} component${recognized.length === 1 ? "" : "s"} analyzed with selected portions: ${portionSummary}.`;
 
       raterResults.innerHTML = `
         <div class="score-overview">
@@ -4404,7 +5029,7 @@
             const proteinDelta = item.swap.protein - item.protein;
             const fiberDelta = item.swap.fiber - item.fiber;
             return `<article class="meal-swap">
-              <span class="swap-arrow">${escapeHtml(item.name)} → ${escapeHtml(item.swap.name)}</span>
+                <span class="swap-arrow">${escapeHtml(item.portionLabel)} ${escapeHtml(item.name)} → ${escapeHtml(item.portionLabel)} ${escapeHtml(item.swap.name)}</span>
               <h4>A realistic component swap</h4>
               <p>${escapeHtml(item.swap.reason)}</p>
               <div class="swap-impact">
@@ -4426,8 +5051,8 @@
                 <div><strong>${after.nutrients.length}</strong><span>Nutrient types</span></div>
               </div>
             </div>
-          </div>` : `<div class="rater-note">This combination does not currently need a preset component swap. You can still adjust portion size or add vegetables and water.</div>`}
-        <p class="rater-note">Prototype estimates use typical servings and cannot account for brands, portions, preparation method, medical needs, or every vitamin amount.</p>`;
+          </div>` : `<div class="rater-note"><strong>Why no swap appeared:</strong> ${escapeHtml(describeMealWithoutPresetSwap(before, recognized))}</div>`}
+        <p class="rater-note">Prototype estimates scale typical-serving nutrition by your Small (0.75×), Medium (1×), or Large (1.5×) selection. They cannot account for exact weight, brands, preparation method, medical needs, or every vitamin amount.</p>`;
       raterResults.hidden = false;
       raterResults.scrollIntoView({ behavior: "smooth", block: "start" });
     }
@@ -4439,6 +5064,7 @@
 
     function renderHistory() {
       const records = getStoredCheckIns().sort((a, b) => new Date(b.cookedAt) - new Date(a.cookedAt));
+      visibleHistoryRecords = records;
       if (!records.length) {
         historyItems.innerHTML = `<div class="shopping-empty"><strong>No completed meals yet.</strong><br>Cook a recipe and finish its meal check-in to create your first history entry.</div>`;
         return;
@@ -4454,12 +5080,37 @@
         <section class="history-day">
           <h3>${escapeHtml(day)}</h3>
           ${dayRecords.map(record => `
-            <article class="history-entry">
+            <button class="history-entry history-entry-button" type="button" data-history-record="${records.indexOf(record)}" aria-label="Open details for ${escapeHtml(record.recipeName)}">
               <div class="history-entry-top"><strong>${escapeHtml(record.recipeName)}</strong><span class="history-stars" aria-label="${record.rating} out of 5 stars">${"★".repeat(record.rating)}${"☆".repeat(5 - record.rating)}</span></div>
-              <p>${new Date(record.cookedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })} · ${record.leftovers ? `${record.leftovers}${record.leftovers === 4 ? "+" : ""} leftover serving${record.leftovers === 1 ? "" : "s"}` : "No leftovers"}</p>
+              <p>${new Date(record.cookedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })} · ${record.leftovers ? `${record.leftovers}${record.leftovers === 4 ? "+" : ""} leftover serving${record.leftovers === 1 ? "" : "s"}` : "No leftovers"} · View details →</p>
               ${record.feedback?.length ? `<div class="history-tags">${record.feedback.map(tag => `<span>${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
-            </article>`).join("")}
+            </button>`).join("")}
         </section>`).join("");
+    }
+
+    function renderHistoryDetail(index) {
+      const record = visibleHistoryRecords[index];
+      if (!record) return;
+      const originalRecipe = recipes.find(recipe => recipe.id === record.recipeId);
+      const recipe = record.recipeSnapshot || originalRecipe;
+      const cookedDate = new Date(record.cookedAt);
+
+      historyItems.innerHTML = `
+        <button class="history-detail-back" type="button" data-history-back>← Back to all meals</button>
+        <article class="history-detail">
+          <p class="panel-kicker">${escapeHtml(recipe?.cuisine || "Saved meal")} · ${escapeHtml(recipe?.mealType || "meal")}</p>
+          <h3>${escapeHtml(record.recipeName)}</h3>
+          <p>${cookedDate.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric", year: "numeric" })} at ${cookedDate.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}</p>
+          <div class="history-detail-stats">
+            <div><strong>${record.rating}/5</strong><span>Your rating</span></div>
+            <div><strong>${record.leftovers ? `${record.leftovers}${record.leftovers === 4 ? "+" : ""}` : "0"}</strong><span>Leftover servings</span></div>
+            ${recipe ? `<div><strong>${recipe.calories}</strong><span>Est. calories</span></div><div><strong>${recipe.time} min</strong><span>Prep + cook</span></div>` : ""}
+          </div>
+          ${record.feedback?.length ? `<section class="history-detail-section"><h4>Your check-in</h4><div class="history-tags">${record.feedback.map(tag => `<span>${escapeHtml(tag)}</span>`).join("")}</div></section>` : ""}
+          ${recipe?.ingredients?.length ? `<section class="history-detail-section"><h4>Ingredients used</h4><ul>${recipe.ingredients.map(item => `<li>${escapeHtml(item.amount)} ${escapeHtml(item.name)}</li>`).join("")}</ul></section>` : ""}
+          ${recipe?.steps?.length ? `<section class="history-detail-section"><h4>How you made it</h4><ol>${recipe.steps.map(step => `<li>${escapeHtml(step)}</li>`).join("")}</ol></section>` : ""}
+          ${originalRecipe ? `<button class="view-button history-detail-action" type="button" data-history-open-recipe="${escapeHtml(record.recipeId)}">Open the full recipe →</button>` : ""}
+        </article>`;
     }
 
     function openHistory() {
@@ -4543,7 +5194,7 @@
         document.getElementById("photoEmpty").hidden = true;
         photoPredictions.hidden = true;
         scanMealPhoto.disabled = false;
-        photoScanStatus.textContent = "Photo ready. Select Identify foods to make the first guess.";
+        photoScanStatus.textContent = "Photo ready. Select Classify on this device. The first scan downloads about 60 MB; later scans can use the browser cache.";
       } catch (photoError) {
         photoScanStatus.classList.add("error");
         photoScanStatus.textContent = photoError.message;
@@ -4551,6 +5202,12 @@
     });
     scanMealPhoto.addEventListener("click", identifyMealPhoto);
     photoPredictions.addEventListener("click", event => {
+      if (event.target.closest("[data-confirm-photo-foods]")) confirmPhotoFoods();
+      if (event.target.closest("[data-back-photo-foods]")) {
+        renderPhotoConfirmationStep(photoPredictionDraft);
+        photoScanStatus.classList.remove("error");
+        photoScanStatus.textContent = photoPredictionNote;
+      }
       if (event.target.closest("[data-use-photo-predictions]")) usePhotoPredictions();
     });
     currentMealInput.addEventListener("keydown", event => {
@@ -4559,9 +5216,23 @@
         analyzeCurrentMeal();
       }
     });
+    currentMealInput.addEventListener("input", () => {
+      currentMealPortions.clear();
+      manualPortions.hidden = true;
+    });
+    manualPortions.addEventListener("change", event => {
+      const portionSelect = event.target.closest("[data-manual-portion]");
+      if (!portionSelect) return;
+      currentMealPortions.set(portionSelect.dataset.manualPortion, {
+        multiplier: Number(portionSelect.value) || 1,
+        label: portionSelect.selectedOptions[0]?.dataset.label || "Medium"
+      });
+      analyzeCurrentMeal(false);
+    });
     document.querySelector(".meal-quick").addEventListener("click", event => {
       const button = event.target.closest("[data-meal-example]");
       if (!button) return;
+      currentMealPortions.clear();
       currentMealInput.value = button.dataset.mealExample;
       analyzeCurrentMeal();
     });
@@ -4652,13 +5323,13 @@
       const recipeButton = event.target.closest("[data-recipe]");
       const shoppingButton = event.target.closest("[data-shop]");
       if (recipeButton) openRecipe(recipeButton.dataset.recipe);
-      if (shoppingButton) addRecipeGaps(shoppingButton.dataset.shop);
+      if (shoppingButton) addRecipeGaps(shoppingButton.dataset.shop, shoppingButton);
     });
 
     planOverview.addEventListener("click", event => {
       const shoppingButton = event.target.closest("[data-shop-plan]");
       const broadenButton = event.target.closest("[data-broaden-plan]");
-      if (shoppingButton) addShoppingItems(shoppingButton.dataset.shopPlan.split("|").filter(Boolean));
+      if (shoppingButton) addShoppingItems(shoppingButton.dataset.shopPlan.split("|").filter(Boolean), shoppingButton);
       if (broadenButton) {
         document.getElementById("mealType").value = "any";
         document.getElementById("cuisine").value = "any";
@@ -4679,7 +5350,7 @@
       const nextButton = event.target.closest("[data-find-next]");
       const improveButton = event.target.closest("[data-improve-cooked]");
 
-      if (shoppingButton) addRecipeGaps(shoppingButton.dataset.shop);
+      if (shoppingButton) addRecipeGaps(shoppingButton.dataset.shop, shoppingButton);
       if (checkinButton) openMealCheckIn();
       if (ratingButton) {
         document.querySelectorAll(".rating-button").forEach(button => {
@@ -4700,13 +5371,14 @@
       if (improveButton) improveCookedMeal();
     });
 
-    document.getElementById("shoppingListButton").addEventListener("click", openShoppingList);
+    shoppingListButton.addEventListener("click", openShoppingList);
     document.getElementById("closeShopping").addEventListener("click", closeShoppingList);
     shoppingDrawer.addEventListener("click", event => { if (event.target === shoppingDrawer) closeShoppingList(); });
     shoppingItems.addEventListener("change", event => {
       const checkbox = event.target.closest("[data-purchased]");
       if (!checkbox) return;
       checkbox.checked ? purchasedItems.add(checkbox.dataset.purchased) : purchasedItems.delete(checkbox.dataset.purchased);
+      updateShoppingList();
     });
     document.getElementById("clearShopping").addEventListener("click", () => {
       shoppingList.clear();
@@ -4717,6 +5389,23 @@
     document.querySelectorAll("[data-history-button]").forEach(button => button.addEventListener("click", openHistory));
     document.getElementById("closeHistory").addEventListener("click", closeHistory);
     historyDrawer.addEventListener("click", event => { if (event.target === historyDrawer) closeHistory(); });
+    historyItems.addEventListener("click", event => {
+      const historyRecord = event.target.closest("[data-history-record]");
+      if (historyRecord) {
+        renderHistoryDetail(Number(historyRecord.dataset.historyRecord));
+        return;
+      }
+      if (event.target.closest("[data-history-back]")) {
+        renderHistory();
+        return;
+      }
+      const recipeButton = event.target.closest("[data-history-open-recipe]");
+      if (recipeButton) {
+        const recipeId = recipeButton.dataset.historyOpenRecipe;
+        closeHistory();
+        openRecipe(recipeId);
+      }
+    });
     document.getElementById("clearHistory").addEventListener("click", () => {
       localStorage.removeItem("fridgefix-checkins");
       feedbackLog.splice(0, feedbackLog.length);
